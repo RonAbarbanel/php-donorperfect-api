@@ -793,6 +793,7 @@ class DonorPerfect
             'currency'            => ['string', 3], // If you use the multi-currency feature, enter appropriate code value per your currency field – e.g; 'USD', 'CAD', etc.
             'receipt_delivery_g'  => ['string', 1], // This field sets receipt delivery preference for the specified gift. Supply one of the following single letter code values: • N = do not acknowledge • E = email • B = email and letter • L = letter
             'acknowledgepref'     => ['string', 3], // Used in Canadian DonorPerfect systems to  indicate official receipt acknowledgement preference code: • 1AR – Acknowledge/Receipt • 2AD – Acknowledge / Do Not Receipt • 3DD – Do Not Acknowledge / Do Not Receipt
+            'rcpt_type'           => ['string', 1], // C for consolidated or I for individual or NULL for unset
         ]));
     }
 
