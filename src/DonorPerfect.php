@@ -925,7 +925,7 @@ class DonorPerfect
             'mobile_phone'       => ['string', 40], //
             'address3'           => ['string', 100], //
             'address4'           => ['string', 100], //
-            'ukcountry'          => ['string', 100], //
+            'ukcounty'           => ['string', 100], //
             'org_rec'            => ['string', 1], // Enter 'Y' to check the Org Rec field (indicating an organizational record) or 'N' to leave it unchecked to indicate an individual record.
         ]));
     }
