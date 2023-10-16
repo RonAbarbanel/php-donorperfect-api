@@ -967,12 +967,17 @@ class DonorPerfect
         return $this->call('dp_savecode', static::prepareParams($data, [
             'field_name'        => ['string', 20], // Enter the name of an existing field type from the DPCODES table
             'code'              => ['string', 30], // Enter the new CODE value
-            'description'       => ['string', 100], // Enter the description value that will appear in drop-down selection values
+            'description'       => ['string', 100], // Enter the description value that will appear in drop-down selection values
             'original_code'     => ['string', 20], // Enter NULL unless you are updating an existing code.  In that case, set this field to the current (before update) value of the CODE
             'code_date'         => ['date'], // Enter NULL
             'mcat_hi'           => ['money'], // Enter NULL
             'mcat_lo'           => ['money'], // Enter NULL
             'mcat_gl'           => ['string', 1], // Enter NULL
+            'reciprocal'        => null,
+            'mailed'            => null,
+            'printing'          => null,
+            'other'             => null,
+            'goal'              => null,
             'acct_num'          => ['string', 30], // Enter NULL
             'campaign'          => ['string', 30], // Enter NULL
             'solicit_code'      => ['string', 30], // Enter NULL
