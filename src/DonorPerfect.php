@@ -1069,7 +1069,7 @@ class DonorPerfect
         return $this->call('mergemultivalues', static::prepareParams($data, [
             'matchingid'  => ['numeric'], //  Specify the desired donor_id
             'fieldname'   => ['string', 20], // Enter the name of the checkbox field name.
-            'valuestring' => ['string', 20], // Enter any CODE values to be set. Separate with commas. Any code values not specified will be unset (unchecked).
+            'valuestring' => ['string', 7000], // Enter any CODE values to be set. Separate with commas (max 20 chars per code). Any code values not specified will be unset (unchecked).
             'debug'       => ['numeric'], // Specification of this field is optional but if you want to return the list of checkbox fields and the values in them after running this command then add debug=1 as a parameter to this API call. If a code was previously set but was not specified in your mergemultivalues API call then it will show as a DeletedCode value. If a value was not previously set but was specified in your API call, then it will show as an InsertedCode.
         ]));
     }
