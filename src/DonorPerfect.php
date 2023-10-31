@@ -136,6 +136,8 @@ class DonorPerfect
 
         // Handle error messages
         if (array_key_exists('error', $response)) {
+            // conceal any credentials in the error to prevent them from being displayed in output
+            $response['error'] = str_replace([$this->apiKey,$this->pass],['**APIKEY**','**PASSWORD**'],$response['error']);
             throw new Exception($response['error']);
         } elseif (isset($response['field']['@attributes']['value']) && $response['field']['@attributes']['value'] === 'false') {
             throw new Exception($response['field']['@attributes']['reason']);
