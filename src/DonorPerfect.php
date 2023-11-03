@@ -140,7 +140,10 @@ class DonorPerfect
             $response['error'] = str_replace([$this->apiKey,$this->pass],['**APIKEY**','**PASSWORD**'],$response['error']);
             throw new Exception($response['error']);
         } elseif (isset($response['field']['@attributes']['value']) && $response['field']['@attributes']['value'] === 'false') {
-            throw new Exception($response['field']['@attributes']['reason']);
+            // conceal any credentials in the error to prevent them from being displayed in output
+            $error = $response['field']['@attributes']['reason'];
+            $error = str_replace([$this->apiKey,$this->pass],['**APIKEY**','**PASSWORD**'],$error);
+            throw new Exception($error);
         }
 
         // Handle empty responses
