@@ -133,16 +133,24 @@ class DonorPerfect
 
         // Turn the response into a usable PHP array
         $response = json_decode(json_encode(simplexml_load_string($response)), true);
-
+        
         // Handle error messages
+        $pattern = [
+            '/(apikey=)([^&]*)/',
+            '/(pass=)([^&]*)/'
+        ];
+        $replacement = [
+            '${1}**APIKEY**',
+            '${1}**PASSWORD**'
+        ];
         if (array_key_exists('error', $response)) {
             // conceal any credentials in the error to prevent them from being displayed in output
-            $response['error'] = str_replace([$this->apiKey,$this->pass],['**APIKEY**','**PASSWORD**'],$response['error']);
+            $response['error'] = preg_replace($pattern, $replacement, $response['error']);
             throw new Exception($response['error']);
         } elseif (isset($response['field']['@attributes']['value']) && $response['field']['@attributes']['value'] === 'false') {
             // conceal any credentials in the error to prevent them from being displayed in output
             $error = $response['field']['@attributes']['reason'];
-            $error = str_replace([$this->apiKey,$this->pass],['**APIKEY**','**PASSWORD**'],$error);
+            $error = preg_replace($pattern, $replacement, $error);
             throw new Exception($error);
         }
 
