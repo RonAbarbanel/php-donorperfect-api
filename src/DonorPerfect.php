@@ -125,16 +125,7 @@ class DonorPerfect
         if (strlen(static::$baseUrl . $relativeUrl) > 8000) {
             throw new Exception('The DonorPerfect API call exceeds the maximum length permitted (8000 characters)');
         }
-        // Make the request
-        $response = (string) $this->client->request('GET', $relativeUrl)->getBody();
-
-        // Fix values with invalid unescaped XML values
-        $response = preg_replace('|(?Umsi)(value=\'DATE:.*\\R*\')|', 'value=\'\'', $response);
-
-        // Turn the response into a usable PHP array
-        $response = json_decode(json_encode(simplexml_load_string($response)), true);
-        
-        // Handle error messages
+        // Create filters to remove any credentials from the response
         $pattern = [
             '/(apikey=)([^&]*)/',
             '/(pass=)([^&]*)/'
@@ -143,6 +134,24 @@ class DonorPerfect
             '${1}**APIKEY**',
             '${1}**PASSWORD**'
         ];
+        // Make the request
+        try{
+            $response = (string) $this->client->request('GET', $relativeUrl)->getBody();
+        }
+        catch(Exception $e){
+            // Conceal any credentials in the error to prevent them from being displayed in output
+            $error = $e->getMessage();
+            $error = preg_replace($pattern, $replacement, $error);
+            throw new Exception($error);
+        }
+
+        // Fix values with invalid unescaped XML values
+        $response = preg_replace('|(?Umsi)(value=\'DATE:.*\\R*\')|', 'value=\'\'', $response);
+
+        // Turn the response into a usable PHP array
+        $response = json_decode(json_encode(simplexml_load_string($response)), true);
+        
+        // Handle error messages
         if (array_key_exists('error', $response)) {
             // conceal any credentials in the error to prevent them from being displayed in output
             $response['error'] = preg_replace($pattern, $replacement, $response['error']);
