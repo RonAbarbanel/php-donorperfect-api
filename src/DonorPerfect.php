@@ -470,7 +470,7 @@ class DonorPerfect
             }
 
             // Handle a param not being included in the data
-            if (!isset($data[$param])) {
+            if (empty($data[$param])) {
                 $return[$param] = null;
                 continue;
             }
